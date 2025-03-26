@@ -4,6 +4,7 @@ import BlogApplication.Blogs.Models.blog;
 import BlogApplication.Blogs.Services.blogService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,21 +48,24 @@ public class HomeController {
         return ResponseEntity.ok("Not Deleted");
     }
 
-    //For Updating
-//    @PutMapping("/{id}")
-//    public ResponseEntity<blog> updateBlog(@PathVariable int id, @Re)
+    // For Adding a Blog
+    @PostMapping("/add")
+    public ResponseEntity<String> addBlog(@RequestBody blog newBlog){
+        blogServ.addBlog(newBlog);
+        return ResponseEntity.ok("Blog Added");
+    }
 
-//    //For Pagenation
-//    // For Adding a Blog
+    //For Updating a blog
+    @PutMapping("/{id}")
+    public ResponseEntity<blog> updateBlog(@PathVariable int id,@RequestBody blog newBlog){
+        if(blogServ.getBlog(id)==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+       blogServ.updateBlog(id,newBlog);
+        return ResponseEntity.ok(blogServ.getBlog(id));
+    }
 
-//    @PostMapping("/addblog")
-//    public ResponseEntity<blog> addBlog(){
-//        blog br = new blog();
-//        br.setAuthor("Shubh");
-//        br.setTitle("Time");
-//        blog g = blogServ.addBlog(br);
-//        return ResponseEntity.ok(g);
-//    }
+
 
 
 

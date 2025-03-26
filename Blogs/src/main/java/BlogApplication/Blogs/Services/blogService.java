@@ -28,4 +28,15 @@ public class blogService {
         }
         return true;
     }
+
+    public void updateBlog(int id,blog newBlog) {
+            blog bg = blogRep.findById(id).orElse(null);
+            if(bg==null){
+                return;
+            }
+            bg.setTitle(newBlog.getTitle());
+            bg.setAuthor(newBlog.getAuthor());
+            return;
+    }
+
 }
